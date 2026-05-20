@@ -3,8 +3,8 @@
 */
 window.VAPES_I18N = {
   fr: {
-    "topbar.phone": "+224 622 170 210 · +224 662 636 657",
-    "topbar.email": "ongvapes@gmail.com",
+    "topbar.phone": "+224 000 000 000 · +224 000 000 000",
+    "topbar.email": "contact@example.com",
     "topbar.hq": "Sanoyah, Km 36, Coyah — République de Guinée",
 
     "nav.home": "Accueil",
@@ -135,7 +135,7 @@ window.VAPES_I18N = {
     "follow.group.cta": "Rejoindre le groupe",
     "follow.mail.tag": "E-mail",
     "follow.mail.title": "Nous écrire directement",
-    "follow.mail.body": "ongvapes@gmail.com · ongvapesforever3690@gmail.com",
+    "follow.mail.body": "contact@example.com · contact@example.com",
     "follow.mail.cta": "Envoyer un message",
 
     "join.eyebrow": "Comment nous soutenir",
@@ -168,8 +168,8 @@ window.VAPES_I18N = {
   },
 
   en: {
-    "topbar.phone": "+224 622 170 210 · +224 662 636 657",
-    "topbar.email": "ongvapes@gmail.com",
+    "topbar.phone": "+224 000 000 000 · +224 000 000 000",
+    "topbar.email": "contact@example.com",
     "topbar.hq": "Sanoyah, Km 36, Coyah — Republic of Guinea",
 
     "nav.home": "Home",
@@ -300,7 +300,7 @@ window.VAPES_I18N = {
     "follow.group.cta": "Join the group",
     "follow.mail.tag": "Email",
     "follow.mail.title": "Write to us directly",
-    "follow.mail.body": "ongvapes@gmail.com · ongvapesforever3690@gmail.com",
+    "follow.mail.body": "contact@example.com · contact@example.com",
     "follow.mail.cta": "Send a message",
 
     "join.eyebrow": "How to support us",
