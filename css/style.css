@@ -145,7 +145,7 @@ p{margin:0 0 1em}
   position:relative;color:#fff;overflow:hidden;
   background:
     linear-gradient(120deg, rgba(10,90,47,.92) 0%, rgba(10,90,47,.78) 45%, rgba(30,138,63,.72) 100%),
-    url('../images/galerie/04-Région B-assainissement-2023.png') center 30%/cover no-repeat;
+    url("https://placehold.co/800x600/e2e8f0/475569?text=Image+Illustration") center 30%/cover no-repeat;
 }
 .hero-inner{
   display:grid;grid-template-columns:1.2fr .9fr;gap:48px;align-items:center;
