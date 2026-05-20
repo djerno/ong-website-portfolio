@@ -1,0 +1,1233 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>ONG VAPES — Présentation du site web</title>
+<link rel="icon" type="image/jpeg" href="images/logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+/* ============ PRINT-FOCUSED STYLES ============ */
+@page { size: A4 landscape; margin: 12mm 14mm; }
+@page :first { margin: 0; }
+* { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+html, body { background: #fff !important; }
+* { transition: none !important; animation: none !important; }
+.reveal { opacity: 1 !important; transform: none !important; }
+*:hover { transform: none !important; }
+
+/* Hide chrome */
+.float-donate, .burger, .lang-toggle, .hero-wave, .wave-divider, .page-hero::after { display: none !important; }
+
+/* Section spacing tighter for print */
+.section { padding: 24px 0 !important; }
+.section-tight { padding: 18px 0 !important; }
+h1, h2, h3 { break-after: avoid !important; page-break-after: avoid !important; }
+.section-title { break-after: avoid !important; page-break-after: avoid !important; }
+.eyebrow { break-after: avoid !important; }
+
+/* CRITICAL : chaque <section> dans le corps démarre sur une nouvelle page,
+   sauf la première qui vient juste après le print-pageheader. */
+.print-page > section {
+  break-before: page !important;
+  page-break-before: always !important;
+}
+.print-page > section:first-of-type,
+.print-page > .container + section:first-of-type {
+  break-before: auto !important;
+  page-break-before: auto !important;
+}
+/* L'en-tête de page de chaque page du site collée à sa première section */
+.print-pageheader + section,
+.print-pageheader + * {
+  break-before: avoid !important;
+  page-break-before: avoid !important;
+}
+
+/* Grilles : autoriser les sauts entre cartes mais pas dans une carte */
+.domains-grid, .projects-grid, .news-grid, .impact-grid,
+.pillars, .partners-strip, .engage-cards, .join-cards,
+.detail-list, .press-kit {
+  break-inside: auto !important;
+  page-break-inside: auto !important;
+}
+
+/* Cartes : indivisibles */
+.pillar, .domain, .stat, .project-card, .project-detail, .news-card,
+.partner, .engage-card, .domain-join-card, .domain-full, .join-card,
+.timeline-item, .contact-card, .contact-form, .press-kit a,
+.join, .newsletter, .hero-card {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+/* Réduire la taille du hero d'accueil pour qu'il tienne mieux */
+.hero { padding: 0 !important; min-height: auto !important; }
+.hero-inner { padding: 30px 0 36px !important; gap: 22px !important; }
+.hero h1 { font-size: 1.9rem !important; max-width: none !important; }
+.hero .lead { font-size: .95rem !important; }
+.hero-meta { margin-top: 18px !important; padding-top: 16px !important; gap: 20px !important; }
+.hero-meta strong { font-size: 1.25rem !important; }
+
+/* Réduire les paddings des sections */
+.section .container, .section-tight .container { padding: 0 18px !important; }
+
+/* Sections sombres : marges réduites */
+.impact { padding: 26px 0 !important; }
+.impact-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 12px !important; }
+.stat { padding: 18px 14px !important; }
+.stat .num { font-size: 1.5rem !important; }
+.stat .label { font-size: .85rem !important; }
+.stat .sub { font-size: .72rem !important; }
+
+/* Grilles 3 colonnes plus serrées */
+.domains-grid, .projects-grid, .news-grid { gap: 14px !important; }
+.domain, .news-card, .project-card { padding: 18px !important; }
+.domain h3, .project-card h3, .news-card h3 { font-size: 1rem !important; }
+.domain p, .news-card p, .project-card p { font-size: .82rem !important; }
+
+/* Détail projets plus compact */
+.project-detail { grid-template-columns: 1fr 1.4fr !important; min-height: auto !important; margin-bottom: 12px !important; }
+.project-detail .photo { min-height: 200px !important; }
+.project-detail .body { padding: 18px !important; }
+.project-detail h2 { font-size: 1.1rem !important; }
+
+/* Domaines détaillés */
+.domain-full { padding: 18px !important; gap: 18px !important; margin-bottom: 12px !important; }
+.domain-full h2 { font-size: 1.2rem !important; }
+
+/* Timeline */
+.timeline-item { padding: 0 0 16px 18px !important; }
+
+/* Page-hero (sous-pages) compact */
+.page-hero { padding: 30px 0 24px !important; }
+.page-hero h1 { font-size: 1.9rem !important; }
+.page-hero p { font-size: .95rem !important; }
+
+/* Sections de join (CTA) : auto-break ok mais cartes intactes */
+.join { padding: 28px !important; }
+.join h2 { font-size: 1.4rem !important; }
+
+/* ============ COVER PAGE ============ */
+.cover {
+  height: 210mm; width: 297mm;
+  margin: 0; padding: 0;
+  background: linear-gradient(135deg, #0A5A2F 0%, #16723B 60%, #1E8A3F 100%);
+  color: #fff;
+  display: flex; flex-direction: column;
+  page-break-after: always;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before, .cover::after {
+  content: ""; position: absolute; border-radius: 50%; filter: blur(80px); opacity: .35; pointer-events: none;
+}
+.cover::before { width: 480px; height: 480px; background: #F5C23E; top: -120px; right: -120px; opacity: .25; }
+.cover::after { width: 360px; height: 360px; background: #4FAE6A; bottom: -100px; left: -100px; opacity: .35; }
+.cover-inner { position: relative; z-index: 2; padding: 22mm 28mm; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.cover .logo-row { display: flex; align-items: center; gap: 18px; }
+.cover .logo-row img { width: 90px; height: 90px; border-radius: 50%; box-shadow: 0 4px 16px rgba(0,0,0,.2); }
+.cover .org { font-family: 'Montserrat', sans-serif; }
+.cover .org strong { display: block; color: #fff; font-size: 1.4rem; letter-spacing: .02em; font-weight: 700; }
+.cover .org span { display: block; color: #cfe5d6; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; margin-top: 4px; }
+.cover .middle { padding: 30px 0; }
+.cover .eyebrow-print {
+  display: inline-flex; gap: 10px; align-items: center;
+  color: #F5C23E; font-family: 'Montserrat', sans-serif; font-weight: 600;
+  font-size: .85rem; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 16px;
+}
+.cover .eyebrow-print::before { content:""; width: 32px; height: 3px; background: #F5C23E; border-radius: 2px; }
+.cover h1 {
+  font-family: 'Montserrat', sans-serif; color: #fff;
+  font-size: 3rem; line-height: 1.05; letter-spacing: -.02em; font-weight: 700;
+  margin: 0 0 18px; max-width: 22ch;
+}
+.cover .sub { color: #e7f1ea; font-size: 1.1rem; line-height: 1.55; max-width: 60ch; margin: 0; }
+.cover .meta-row {
+  display: flex; gap: 28px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.2);
+  font-family: 'Montserrat', sans-serif; font-size: .9rem; flex-wrap: wrap;
+}
+.cover .meta-row div { display: flex; flex-direction: column; gap: 2px; }
+.cover .meta-row strong { color: #F5C23E; font-weight: 700; font-size: 1.05rem; }
+.cover .meta-row span { color: #cfe5d6; font-size: .82rem; letter-spacing: .04em; text-transform: uppercase; }
+
+/* ============ TOC (page 2) ============ */
+.toc { padding: 18mm 22mm; min-height: 90vh; }
+.toc h2 { font-family: 'Montserrat', sans-serif; color: #0A5A2F; font-size: 2rem; margin: 0 0 8px; }
+.toc .toc-lead { color: #6B7A74; margin: 0 0 32px; max-width: 70ch; }
+.toc ol { list-style: none; padding: 0; margin: 0; counter-reset: section; }
+.toc li {
+  counter-increment: section; padding: 16px 0; display: flex; justify-content: space-between;
+  border-bottom: 1px dotted #B0A99B; align-items: baseline; gap: 24px;
+}
+.toc li::before {
+  content: counter(section, decimal-leading-zero); font-family: 'Montserrat', sans-serif;
+  font-weight: 700; color: #F5C23E; font-size: .92rem; min-width: 36px;
+}
+.toc li .label {
+  flex: 1; font-family: 'Montserrat', sans-serif; font-weight: 600; color: #1A2421; font-size: 1.05rem;
+}
+.toc li .label small { display: block; font-weight: 500; color: #6B7A74; font-size: .82rem; margin-top: 2px; }
+
+/* ============ SECTION INTRO (page-hero replacement) ============ */
+.print-pageheader {
+  background: linear-gradient(135deg, #0A5A2F 0%, #0e6b38 100%);
+  color: #fff; padding: 26px 32px; border-radius: 0;
+  margin: 0 -14mm 0 -14mm; /* bleed to page edge */
+}
+.print-pageheader .eyebrow {
+  color: #F5C23E; font-family: 'Montserrat', sans-serif; font-weight: 600;
+  font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; margin: 0 0 8px;
+}
+.print-pageheader .eyebrow::before { content:""; display:inline-block; width: 22px; height: 2px; background:#F5C23E; border-radius: 2px; vertical-align: middle; margin-right: 8px; }
+.print-pageheader h1 { color: #fff; font-family: 'Montserrat', sans-serif; font-size: 1.8rem; margin: 0; line-height: 1.15; }
+
+/* Hide the original page-hero/topbar/header/footer within each page section */
+.print-page .topbar,
+.print-page .site-header,
+.print-page .site-footer { display: none !important; }
+.print-page .page-hero { display: none !important; }
+
+/* Tweak the hero on the homepage section */
+.print-page .hero { padding: 0 !important; }
+
+/* End-of-document signoff */
+.print-end {
+  break-before: page; page-break-before: always;
+  min-height: 80vh;
+  background: #082b1a;
+  color: #cfe5d6;
+  padding: 30mm 18mm; text-align: center;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+}
+.print-end img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 18px; }
+.print-end h2 { font-family: 'Montserrat', sans-serif; color: #fff; font-size: 1.6rem; margin: 0 0 10px; }
+.print-end p { max-width: 50ch; line-height: 1.6; }
+.print-end .credit-row {
+  margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.1);
+  display: flex; align-items: center; gap: 12px; color: #7a9587; font-size: .85rem;
+}
+.print-end .credit-row img { width: auto; height: 22px; border-radius: 0; margin: 0; }
+</style>
+</head>
+<body>
+<section class="cover">
+  <div class="cover-inner">
+    <div class="logo-row">
+      <img src="images/logo.jpeg" alt="ONG VAPES">
+      <div class="org"><strong>ONG VAPES</strong><span>Perception · Réalité · Réussite</span></div>
+    </div>
+    <div class="middle">
+      <span class="eyebrow-print">Présentation du site web</span>
+      <h1>Agir aujourd'hui pour préserver l'environnement de demain.</h1>
+      <p class="sub">Visionnaire de l'Avenir pour un Environnement Sain — ONG guinéenne, apolitique, à but non lucratif.</p>
+    </div>
+    <div class="meta-row">
+      <div><strong>République de Guinée</strong><span>Sanoyah · Km 36 · Coyah</span></div>
+      <div><strong>8 pages</strong><span>Site web officiel</span></div>
+      <div><strong>15 mai 2026</strong><span>Présentation</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc">
+  <h2>Sommaire</h2>
+  <p class="toc-lead">Aperçu des huit pages constituant le site web officiel de l'ONG VAPES.</p>
+  <ol>
+    <li><span class="label">Accueil<small>Agir aujourd'hui pour préserver l'environnement de demain</small></span></li>
+    <li><span class="label">Qui sommes-nous<small>Visionnaire de l'Avenir pour un Environnement Sain</small></span></li>
+    <li><span class="label">Domaines d'intervention<small>Six leviers complémentaires pour un environnement sain</small></span></li>
+    <li><span class="label">Nos projets<small>Sur le terrain, avec les communautés</small></span></li>
+    <li><span class="label">Actualités<small>L'actualité de l'ONG VAPES</small></span></li>
+    <li><span class="label">S'engager<small>Cinq manières de soutenir l'ONG VAPES</small></span></li>
+    <li><span class="label">Presse<small>Ressources presse & médias</small></span></li>
+    <li><span class="label">Contact<small>Coordonnées et formulaire</small></span></li>
+  </ol>
+</section>
+
+<article class="print-page">
+  <header class="print-pageheader">
+    <p class="eyebrow">Page 01 · ACCUEIL</p>
+    <h1>Agir aujourd'hui pour préserver l'environnement de demain</h1>
+  </header>
+  <!-- ==================== HERO ==================== -->
+<section class="hero" aria-label="Présentation">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <span class="eyebrow" data-i18n="hero.eyebrow">ONG officielle — République de Guinée</span>
+        <h1 data-i18n="hero.title">Agir aujourd'hui pour préserver l'environnement de demain.</h1>
+        <p class="lead" data-i18n="hero.lead">L'ONG VAPES rassemble communautés, femmes et jeunes pour protéger l'environnement, restaurer la biodiversité et bâtir un développement durable, à travers toute la Guinée.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-gold" href="sengager.html#don" data-i18n="hero.cta.donate">Faire un don</a>
+          <a class="btn btn-outline-white" href="sengager.html#benevolat" data-i18n="hero.cta.volunteer">Devenir bénévole</a>
+        </div>
+        <div class="hero-meta">
+          <div>
+            <strong>6</strong>
+            <span data-i18n="hero.meta.fields">Domaines d'intervention</span>
+          </div>
+          <div>
+            <strong>5</strong>
+            <span data-i18n="hero.meta.actions">Axes d'actions clés</span>
+          </div>
+          <div>
+            <strong data-i18n="hero.meta.country">Guinée</strong>
+            <span data-i18n="hero.meta.country.sub">Tout le territoire national</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-label="Notre approche">
+        <h3 data-i18n="hero.card.title">Notre approche</h3>
+        <p class="quote" data-i18n="hero.card.quote">Communautés, femmes et jeunes au cœur des interventions — une équipe engagée et multidisciplinaire, des actions concrètes de terrain, la sensibilisation, la formation et le plaidoyer.</p>
+        <div class="motto" data-i18n="hero.card.motto">Perception · Réalité · Réussite</div>
+        <p class="attribution" data-i18n="hero.card.attribution">ONG VAPES — Sanoyah, Km 36, Coyah · République de Guinée</p>
+      </aside>
+    </div>
+  </div>
+
+  </section>
+
+<!-- ==================== WHO WE ARE — PILLARS ==================== -->
+<section class="section" aria-label="Qui sommes-nous">
+  <div class="container">
+    <div class="section-title reveal">
+      <span class="eyebrow" data-i18n="who.eyebrow">Qui sommes-nous</span>
+      <h2 data-i18n="who.title">Une ONG guinéenne, apolitique, ancrée dans la réalité du terrain.</h2>
+      <p data-i18n="who.lead">VAPES — Visionnaire de l'Avenir pour un Environnement Sain — agit depuis Sanoyah, sur tout le territoire national, autour d'une devise simple : Perception – Réalité – Réussite.</p>
+    </div>
+    <div class="pillars">
+      <article class="pillar reveal">
+        <div class="num">01</div>
+        <h3 data-i18n="who.mission.title">Mission</h3>
+        <p data-i18n="who.mission.body">Sensibiliser et agir concrètement pour protéger l'environnement, préserver la biodiversité et améliorer durablement les conditions de vie des populations.</p>
+      </article>
+      <article class="pillar reveal">
+        <div class="num">02</div>
+        <h3 data-i18n="who.vision.title">Vision</h3>
+        <p data-i18n="who.vision.body">Une Guinée résiliente, où chaque communauté tire sa subsistance d'un environnement préservé et où les jeunes générations héritent d'un territoire vivant.</p>
+      </article>
+      <article class="pillar reveal">
+        <div class="num">03</div>
+        <h3 data-i18n="who.values.title">Valeurs</h3>
+        <p data-i18n="who.values.body">Engagement, transparence, inclusion des femmes et des jeunes, rigueur scientifique, partenariat équitable Nord–Sud.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 6 DOMAINES ==================== -->
+<section class="section bg-soft" aria-label="Domaines d'intervention">
+  <div class="container">
+    <div class="section-title reveal">
+      <span class="eyebrow" data-i18n="fields.eyebrow">Nos 6 domaines d'intervention</span>
+      <h2 data-i18n="fields.title">Du reboisement à la jeunesse — six leviers pour un seul territoire.</h2>
+      <p data-i18n="fields.lead">Nos équipes pluridisciplinaires (agronomes, ingénieurs, juristes, animateurs communautaires) interviennent à toutes les échelles, du village au plaidoyer national.</p>
+    </div>
+
+    <div class="domains-grid">
+      <article class="domain reveal">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V14"/><path d="M5 14c-1.7-2-2-4.2-1.5-6.2C4.3 5 7 4 9.1 5c.9-2.4 3.8-3.5 6-2.1 1.4.9 2 2.5 1.7 4 2.1.4 3.7 2.4 3.5 4.7-.2 2.2-2 4-4.3 4.4"/><path d="M5 14h14"/></svg>
+        </div>
+        <h3 data-i18n="fields.1.title">Reboisement & lutte contre la déforestation</h3>
+        <p data-i18n="fields.1.body">Programmes de reboisement et restauration des écosystèmes dégradés avec les communautés locales.</p>
+        <a class="link" href="domaines.html#reboisement"><span data-i18n="fields.cta">Découvrir le domaine</span> <span class="arrow">→</span></a>
+      </article>
+
+      <article class="domain reveal">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="9" r="3"/><path d="M7 4V2M2 9h2M12 9H10M9.2 5.8l1.4-1.4M3.4 5.8 4.8 4.4M3.4 12.2l1.4-1.4M9.2 12.2l1.4 1.4"/><path d="M14 18a4 4 0 1 1 4-4"/><path d="M9 22a3 3 0 0 1-3-3 3 3 0 0 1 .6-1.8"/><path d="M10 22h8a3 3 0 0 0 0-6h-.5"/></svg>
+        </div>
+        <h3 data-i18n="fields.2.title">Changement climatique</h3>
+        <p data-i18n="fields.2.body">Sensibilisation et actions concrètes pour accompagner les communautés face aux dérèglements climatiques.</p>
+        <a class="link" href="domaines.html#climat"><span data-i18n="fields.cta">Découvrir le domaine</span> <span class="arrow">→</span></a>
+      </article>
+
+      <article class="domain reveal">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><path d="M2 14c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><path d="M2 20c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/></svg>
+        </div>
+        <h3 data-i18n="fields.3.title">Lutte contre l'érosion côtière</h3>
+        <p data-i18n="fields.3.body">Protection du littoral guinéen et appui aux populations riveraines exposées au recul du trait de côte.</p>
+        <a class="link" href="domaines.html#erosion"><span data-i18n="fields.cta">Découvrir le domaine</span> <span class="arrow">→</span></a>
+      </article>
+
+      <article class="domain reveal">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 19v3"/><path d="M3 16l3-9 3 5"/><path d="M21 16l-3 3-5-1"/><path d="M14 4l3 5-4 3"/><path d="M9 12l5-3"/><path d="M17 19h-7"/></svg>
+        </div>
+        <h3 data-i18n="fields.4.title">Gestion & valorisation des déchets</h3>
+        <p data-i18n="fields.4.body">Sensibilisation au tri, appui aux initiatives locales de gestion et valorisation des déchets.</p>
+        <a class="link" href="domaines.html#dechets"><span data-i18n="fields.cta">Découvrir le domaine</span> <span class="arrow">→</span></a>
+      </article>
+
+      <article class="domain reveal">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <h3 data-i18n="fields.5.title">Éducation environnementale & formation</h3>
+        <p data-i18n="fields.5.body">Formations en gouvernance environnementale, sensibilisation et transmission des savoirs.</p>
+        <a class="link" href="domaines.html#education"><span data-i18n="fields.cta">Découvrir le domaine</span> <span class="arrow">→</span></a>
+      </article>
+
+      <article class="domain reveal">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M15 21v-1.5a3 3 0 0 1 3-3h1a3 3 0 0 1 3 3V21"/></svg>
+        </div>
+        <h3 data-i18n="fields.6.title">Promotion du genre, des femmes et des jeunes</h3>
+        <p data-i18n="fields.6.body">Les femmes et les jeunes au cœur de l'action environnementale et du développement durable.</p>
+        <a class="link" href="domaines.html#genre"><span data-i18n="fields.cta">Découvrir le domaine</span> <span class="arrow">→</span></a>
+      </article>
+    </div>
+
+    <div style="margin-top:36px;text-align:center" class="reveal">
+      <a href="domaines.html" class="btn btn-outline" data-i18n="fields.allcta">Voir les 6 domaines en détail</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 4 PRIORITÉS DE LA MISSION ==================== -->
+<section class="section impact" aria-label="Nos priorités">
+  <div class="container">
+    <div class="section-title reveal">
+      <span class="eyebrow" style="color:var(--gold)" data-i18n="priorities.eyebrow">Notre mission</span>
+      <h2 data-i18n="priorities.title">Renforcer la sensibilisation des communautés locales et agir concrètement.</h2>
+      <p data-i18n="priorities.lead">Quatre priorités au cœur de chaque action menée par l'ONG VAPES sur le territoire guinéen.</p>
+    </div>
+
+    <div class="impact-grid">
+      <div class="stat reveal">
+        <div class="num">01</div>
+        <div class="label" data-i18n="priorities.1.label">Protection de l'environnement</div>
+        <div class="sub" data-i18n="priorities.1.sub">Préserver les écosystèmes naturels</div>
+      </div>
+      <div class="stat reveal">
+        <div class="num">02</div>
+        <div class="label" data-i18n="priorities.2.label">Préservation de la biodiversité</div>
+        <div class="sub" data-i18n="priorities.2.sub">Protéger la richesse du vivant</div>
+      </div>
+      <div class="stat reveal">
+        <div class="num">03</div>
+        <div class="label" data-i18n="priorities.3.label">Développement durable</div>
+        <div class="sub" data-i18n="priorities.3.sub">Concilier nature et économie locale</div>
+      </div>
+      <div class="stat reveal">
+        <div class="num">04</div>
+        <div class="label" data-i18n="priorities.4.label">Conditions de vie des populations</div>
+        <div class="sub" data-i18n="priorities.4.sub">Améliorer durablement le quotidien</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 5 ACTIONS CLÉS ==================== -->
+<section class="section" aria-label="Nos actions clés">
+  <div class="container">
+    <div class="section-title reveal">
+      <span class="eyebrow" data-i18n="actions.eyebrow">Nos actions clés</span>
+      <h2 data-i18n="actions.title">Cinq leviers d'action sur le terrain.</h2>
+      <p data-i18n="actions.lead">Des actions concrètes de terrain, la sensibilisation, la formation et le plaidoyer — au plus près des communautés locales.</p>
+    </div>
+
+    <div class="domains-grid">
+      <article class="domain reveal">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V8"/><path d="M5 12c-1-2-1-4 0-6 2-1 4 0 5 1 1-2 3-2 5-1 1 2 1 4 0 6"/><path d="M5 12h14"/><path d="M9 16h6"/></svg>
+        </div>
+        <div style="font-family:'Montserrat',sans-serif;font-weight:700;color:var(--gold);font-size:.78rem;letter-spacing:.12em" data-i18n="actions.1.tag">Action 01</div>
+        <h3 data-i18n="actions.1.title">Programmes de reboisement et restauration des écosystèmes</h3>
+        <p data-i18n="actions.1.body">Restaurer la couverture forestière et les milieux naturels dégradés.</p>
+      </article>
+
+      <article class="domain reveal">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/></svg>
+        </div>
+        <div style="font-family:'Montserrat',sans-serif;font-weight:700;color:var(--gold);font-size:.78rem;letter-spacing:.12em" data-i18n="actions.2.tag">Action 02</div>
+        <h3 data-i18n="actions.2.title">Formations en gouvernance environnementale</h3>
+        <p data-i18n="actions.2.body">Outiller acteurs publics, étudiants et leaders communautaires.</p>
+      </article>
+
+      <article class="domain reveal">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><path d="M12 2v3M5 5l2 2M19 5l-2 2"/></svg>
+        </div>
+        <div style="font-family:'Montserrat',sans-serif;font-weight:700;color:var(--gold);font-size:.78rem;letter-spacing:.12em" data-i18n="actions.3.tag">Action 03</div>
+        <h3 data-i18n="actions.3.title">Sensibilisation communautaire et plaidoyer</h3>
+        <p data-i18n="actions.3.body">Mobiliser et porter la voix des communautés auprès des décideurs.</p>
+      </article>
+
+      <article class="domain reveal">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V11l4-3 4 3v10"/><path d="M13 21v-7l4-3 4 3v7"/><path d="M9 16h.01M17 18h.01"/></svg>
+        </div>
+        <div style="font-family:'Montserrat',sans-serif;font-weight:700;color:var(--gold);font-size:.78rem;letter-spacing:.12em" data-i18n="actions.4.tag">Action 04</div>
+        <h3 data-i18n="actions.4.title">Appui aux initiatives locales durables</h3>
+        <p data-i18n="actions.4.body">Accompagner les porteurs de projets verts à l'échelle locale.</p>
+      </article>
+
+      <article class="domain reveal">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div style="font-family:'Montserrat',sans-serif;font-weight:700;color:var(--gold);font-size:.78rem;letter-spacing:.12em" data-i18n="actions.5.tag">Action 05</div>
+        <h3 data-i18n="actions.5.title">Coopération Nord–Sud et partenariats stratégiques</h3>
+        <p data-i18n="actions.5.body">Tisser des alliances institutionnelles et techniques internationales.</p>
+      </article>
+
+      <article class="domain reveal" style="background:var(--green-900);color:#fff;border-color:transparent;display:flex;flex-direction:column;justify-content:center;text-align:center">
+        <div style="font-family:'Montserrat',sans-serif;font-weight:700;color:var(--gold);font-size:2.4rem;line-height:1;margin-bottom:10px">+5</div>
+        <h3 style="color:#fff;margin:0 0 8px;font-size:1.05rem" data-i18n="actions.cta.title">Axes d'actions clés</h3>
+        <p style="color:#cfe5d6;margin:0 0 16px;font-size:.92rem" data-i18n="actions.cta.body">Découvrez l'intégralité de notre démarche.</p>
+        <a href="domaines.html" class="btn btn-gold" data-i18n="actions.cta.btn" style="align-self:center">En savoir plus</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ACTIVITÉS RÉCENTES (galerie réelle) ==================== -->
+<section class="section" aria-label="Activités récentes" id="activites">
+  <div class="container">
+    <div class="section-title reveal" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;max-width:100%">
+      <div style="max-width:680px">
+        <span class="eyebrow" data-i18n="activities.eyebrow">Activités récentes</span>
+        <h2 data-i18n="activities.title">VAPES sur le terrain.</h2>
+        <p data-i18n="activities.lead">Quelques actions menées dans les régions de Faranah et à Conakry, en partenariat avec les autorités locales, l'ISAV et les jeunes.</p>
+      </div>
+    </div>
+
+    <div class="news-grid">
+
+      <article class="news-card reveal">
+        <div class="img" style="background-image:url('images/galerie/02-faranah-ministre-agriculture.png')"></div>
+        <div class="body">
+          <span class="tag" data-i18n="activities.1.tag">Faranah</span>
+          <span class="date" data-i18n="activities.1.date">Programme spécial étudiant</span>
+          <h3 data-i18n="activities.1.title">Rencontre avec la Ministre de l'Agriculture</h3>
+          <p data-i18n="activities.1.body">Échange à Faranah avec Mme Mariama Ciré SYLLA. L'ONG VAPES est bénéficiaire du Programme spécial étudiant à Kindia, Mamou, Faranah et N'Zérékoré (apiculture, maraîchage, production et transformation).</p>
+        </div>
+      </article>
+
+      <article class="news-card reveal">
+        <div class="img" style="background-image:url('images/galerie/01-faranah-aout-plantation.png')"></div>
+        <div class="body">
+          <span class="tag" data-i18n="activities.2.tag">Faranah</span>
+          <span class="date" data-i18n="activities.2.date">Bilan du mois d'août</span>
+          <h3 data-i18n="activities.2.title">Faranah — assainissement, dons de plants et formation</h3>
+          <p data-i18n="activities.2.body">Assainissement régulier de la Maison des Jeunes de Faranah, don d'environ 450 plants de fleurs à l'ISAV-Faranah, et formation de 36 jeunes sur l'insertion à la vie professionnelle.</p>
+        </div>
+      </article>
+
+      <article class="news-card reveal">
+        <div class="img" style="background-image:url('images/galerie/03-conakry-lycee-ast-attestations.png')"></div>
+        <div class="body">
+          <span class="tag" data-i18n="activities.3.tag">Conakry</span>
+          <span class="date" data-i18n="activities.3.date">21 novembre 2024</span>
+          <h3 data-i18n="activities.3.title">Remise d'attestations à 150 élèves au Lycée Ahmed Sékou Touré</h3>
+          <p data-i18n="activities.3.body">Attestations remises à 150 élèves à l'issue des formations sur le Développement Personnel, la Mentalité Financière et les Métiers du Numérique.</p>
+        </div>
+      </article>
+
+      <article class="news-card reveal">
+        <div class="img" style="background-image:url('images/galerie/04-faranah-assainissement-2023.png')"></div>
+        <div class="body">
+          <span class="tag" data-i18n="activities.4.tag">Faranah</span>
+          <span class="date" data-i18n="activities.4.date">6 mai 2023</span>
+          <h3 data-i18n="activities.4.title">Journée d'assainissement avec les autorités et les jeunes</h3>
+          <p data-i18n="activities.4.body">« Une ville propre, une population en bonne santé et épanouie » — journée mobilisant les autorités locales et la jeunesse de Faranah pour un environnement sain.</p>
+        </div>
+      </article>
+
+      <article class="news-card reveal">
+        <div class="img" style="background-image:url('images/galerie/05-equipe-vapes-apres-action.png')"></div>
+        <div class="body">
+          <span class="tag" data-i18n="activities.5.tag">Esprit d'équipe</span>
+          <span class="date" data-i18n="activities.5.date">Sur le terrain</span>
+          <h3 data-i18n="activities.5.title">Après l'action, l'engagement collectif</h3>
+          <p data-i18n="activities.5.body">Une jeunesse mobilisée, des gilets jaunes, des outils et beaucoup de sourires — l'équipe VAPES réunie après une journée de mobilisation citoyenne.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SUIVEZ VAPES ==================== -->
+<section class="section bg-soft" aria-label="Suivez VAPES">
+  <div class="container">
+    <div class="section-title reveal" style="text-align:center;margin-left:auto;margin-right:auto">
+      <span class="eyebrow" style="margin-left:auto;margin-right:auto" data-i18n="follow.eyebrow">Restons en contact</span>
+      <h2 data-i18n="follow.title">Suivez l'actualité de VAPES.</h2>
+      <p data-i18n="follow.lead">Retrouvez nos actions, photos de terrain et appels à mobilisation sur les réseaux et par e-mail.</p>
+    </div>
+
+    <div class="engage-cards" style="grid-template-columns:repeat(3,1fr)">
+      <a class="engage-card reveal" href="https://facebook.com/profile.php?id=61572129334576" target="_blank" rel="noopener">
+        <div class="ix" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </div>
+        <h3 data-i18n="follow.fb.title">Page officielle ONG VAPES</h3>
+        <p data-i18n="follow.fb.body">Publications officielles, communiqués et reportages photos.</p>
+        <span class="btn btn-ghost" style="padding:0"><span data-i18n="follow.fb.cta">Visiter la page</span> <span class="arrow">→</span></span>
+      </a>
+
+      <a class="engage-card reveal" href="https://www.facebook.com/share/g/1GfDJP7Vfm/" target="_blank" rel="noopener">
+        <div class="ix" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3 data-i18n="follow.group.title">Groupe Facebook historique</h3>
+        <p data-i18n="follow.group.body">Espace communautaire d'échange autour des actions de VAPES.</p>
+        <span class="btn btn-ghost" style="padding:0"><span data-i18n="follow.group.cta">Rejoindre le groupe</span> <span class="arrow">→</span></span>
+      </a>
+
+      <a class="engage-card reveal" href="mailto:ongvapes@gmail.com">
+        <div class="ix" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <h3 data-i18n="follow.mail.title">Nous écrire directement</h3>
+        <p data-i18n="follow.mail.body">ongvapes@gmail.com · ongvapesforever3690@gmail.com</p>
+        <span class="btn btn-ghost" style="padding:0"><span data-i18n="follow.mail.cta">Envoyer un message</span> <span class="arrow">→</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PARTNERS ==================== -->
+<section class="section-tight" aria-label="Partenaires">
+  <div class="container">
+    <div class="section-title reveal" style="text-align:center;margin-left:auto;margin-right:auto">
+      <span class="eyebrow" style="margin-left:auto;margin-right:auto" data-i18n="partners.eyebrow">Partenaires</span>
+      <h2 data-i18n="partners.title">Une légitimité bâtie sur des collaborations institutionnelles.</h2>
+      <p data-i18n="partners.lead">Nous travaillons avec les institutions publiques et internationales qui font autorité sur nos sujets — pour des actions financées, encadrées et évaluées.</p>
+    </div>
+
+    <div class="partners-strip reveal">
+      <div class="partner"><div class="mark" style="background:#0A5A2F">MA</div><span class="label">Ministère de l'Agriculture (GN)</span></div>
+      <div class="partner"><div class="mark" style="background:#1E8A3F">IS</div><span class="label">ISAV — Institut Supérieur Agronomique</span></div>
+      <div class="partner"><div class="mark" style="background:#1976D2">FAO</div><span class="label">FAO — Nations Unies</span></div>
+      <div class="partner"><div class="mark" style="background:#6B4FBB">ON</div><span class="label">ONFPP — Formation Professionnelle</span></div>
+      <div class="partner"><div class="mark" style="background:#C2410C">FA</div><span class="label">Fondation Afrique Émergente</span></div>
+      <div class="partner"><div class="mark" style="background:#0F766E">LT</div><span class="label">Le Tablier</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== JOIN US ==================== -->
+<section class="section" aria-label="Rejoignez-nous">
+  <div class="container">
+    <div class="join reveal">
+      <div>
+        <span class="eyebrow" style="color:var(--gold)" data-i18n="join.eyebrow">Rejoignez-nous</span>
+        <h2 data-i18n="join.title">Plus qu'un don : un engagement pour la Guinée de demain.</h2>
+        <p data-i18n="join.lead">Quatre manières de soutenir VAPES — choisissez celle qui vous ressemble.</p>
+      </div>
+      <div class="join-cards">
+        <a class="join-card" href="sengager.html#don">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <strong data-i18n="join.donate.title">Faire un don</strong>
+          <span data-i18n="join.donate.body">Mobile Money, PayPal ou virement. Chaque euro est tracé.</span>
+        </a>
+        <a class="join-card" href="sengager.html#benevolat">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <strong data-i18n="join.volunteer.title">Devenir bénévole</strong>
+          <span data-i18n="join.volunteer.body">Sur le terrain ou à distance, mettez vos compétences au service du vivant.</span>
+        </a>
+        <a class="join-card" href="sengager.html#partenariat">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <strong data-i18n="join.partner.title">Devenir partenaire</strong>
+          <span data-i18n="join.partner.body">Entreprises, fondations, ambassades : co-construisons un programme.</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== NEWSLETTER ==================== -->
+<section class="section-tight" aria-label="Newsletter">
+  <div class="container">
+    <div class="newsletter reveal">
+      <div>
+        <h3 data-i18n="newsletter.title">Restez informé.</h3>
+        <p data-i18n="newsletter.body">Un e-mail tous les deux mois, vraies histoires de terrain et appels à mobilisation. Pas de spam.</p>
+      </div>
+      <form class="newsletter-form" data-newsletter novalidate>
+        <label for="nl-email" class="sr-only" style="position:absolute;left:-9999px">Email</label>
+        <input id="nl-email" name="email" type="email" required placeholder="votre.email@exemple.com" data-i18n-attr="placeholder:newsletter.placeholder">
+        <button type="submit" class="btn btn-gold" data-i18n="newsletter.cta">S'inscrire</button>
+      </form>
+    </div>
+  </div>
+</section>
+</article>
+
+
+<article class="print-page">
+  <header class="print-pageheader">
+    <p class="eyebrow">Page 02 · QUI SOMMES-NOUS</p>
+    <h1>Visionnaire de l'Avenir pour un Environnement Sain</h1>
+  </header>
+  <!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html" data-i18n="nav.home">Accueil</a><span class="sep">›</span><span data-i18n="nav.about">Qui sommes-nous</span>
+    </div>
+    <span class="eyebrow" data-i18n="about.eyebrow">L'ONG VAPES en quelques mots</span>
+    <h1 data-i18n="about.title">Visionnaire de l'Avenir pour un Environnement Sain.</h1>
+    <p data-i18n="about.lead">Une organisation non gouvernementale guinéenne, apolitique et à but non lucratif, qui place les communautés, les femmes et les jeunes au cœur de ses interventions.</p>
+  </div>
+</section>
+
+<!-- INTRO + COORDINATEUR -->
+<section class="section">
+  <div class="container">
+    <div class="content-grid-2" style="grid-template-columns:1.4fr 1fr">
+      <div>
+        <span class="eyebrow" data-i18n="about.who.eyebrow">Notre identité</span>
+        <h2 style="margin-top:.4em" data-i18n="about.who.title">Une ONG guinéenne, ancrée dans la réalité du terrain.</h2>
+        <p data-i18n="about.who.p1">L'ONG VAPES (Visionnaire de l'Avenir pour un Environnement Sain) est une organisation non gouvernementale guinéenne, apolitique et à but non lucratif, créée pour répondre aux défis environnementaux et sociaux auxquels font face les communautés locales.</p>
+        <p data-i18n="about.who.p2">Implantée à Conakry et intervenant sur l'ensemble du territoire national, l'ONG VAPES œuvre pour la protection de l'environnement, la préservation de la biodiversité et la promotion du développement durable, à travers des actions concrètes de terrain, la sensibilisation, la formation et le plaidoyer.</p>
+        <p data-i18n="about.who.p3">Portée par une équipe engagée et multidisciplinaire, VAPES place les communautés, les femmes et les jeunes au cœur de ses interventions.</p>
+      </div>
+      <aside style="background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm)">
+        <div style="aspect-ratio:1/1;background:url('images/team/aly-leno-coordinateur.png') center/cover"></div>
+        <div style="padding:24px">
+          <span style="font-family:'Montserrat',sans-serif;font-weight:600;color:var(--gold);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase" data-i18n="about.coord.role">Coordinateur National</span>
+          <h3 style="color:var(--green-900);margin:6px 0 4px;font-size:1.3rem">Aly Leno</h3>
+          <p style="color:var(--muted);margin:0;font-size:.92rem" data-i18n="about.coord.body">Leader de l'ONG VAPES, à la tête de la coordination nationale des actions de terrain.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION / VISION / DEVISE -->
+<section class="section bg-soft">
+  <div class="container">
+    <div class="section-title">
+      <span class="eyebrow" data-i18n="about.pillars.eyebrow">Mission · Approche · Devise</span>
+      <h2 data-i18n="about.pillars.title">Trois piliers, un même cap.</h2>
+    </div>
+    <div class="pillars">
+      <article class="pillar">
+        <div class="num">01</div>
+        <h3 data-i18n="who.mission.title">Mission</h3>
+        <p data-i18n="about.mission.body">Renforcer la sensibilisation des communautés locales et agir concrètement pour la protection de l'environnement, la préservation de la biodiversité, le développement durable et l'amélioration des conditions de vie des populations.</p>
+      </article>
+      <article class="pillar">
+        <div class="num">02</div>
+        <h3 data-i18n="who.vision.title">Approche</h3>
+        <p data-i18n="about.vision.body">Placer les communautés, les femmes et les jeunes au cœur des interventions, à travers des actions concrètes de terrain, la sensibilisation, la formation et le plaidoyer.</p>
+      </article>
+      <article class="pillar">
+        <div class="num">03</div>
+        <h3 data-i18n="who.values.title">Devise</h3>
+        <p><strong style="color:var(--green-900);font-family:'Montserrat',sans-serif">Perception – Réalité – Réussite.</strong><br><span data-i18n="about.devise.body">Trois mots qui résument la démarche de l'ONG VAPES sur le terrain.</span></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 4 PRIORITÉS -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <span class="eyebrow" data-i18n="priorities.eyebrow">Notre mission</span>
+      <h2 data-i18n="priorities.title">Renforcer la sensibilisation des communautés locales et agir concrètement.</h2>
+      <p data-i18n="priorities.lead">Quatre priorités au cœur de chaque action menée par l'ONG VAPES sur le territoire guinéen.</p>
+    </div>
+    <ul class="detail-list">
+      <li><div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4 data-i18n="priorities.1.label">Protection de l'environnement</h4><p data-i18n="priorities.1.sub">Préserver les écosystèmes naturels</p></div></li>
+      <li><div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4 data-i18n="priorities.2.label">Préservation de la biodiversité</h4><p data-i18n="priorities.2.sub">Protéger la richesse du vivant</p></div></li>
+      <li><div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4 data-i18n="priorities.3.label">Développement durable</h4><p data-i18n="priorities.3.sub">Concilier nature et économie locale</p></div></li>
+      <li><div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></div><div><h4 data-i18n="priorities.4.label">Conditions de vie des populations</h4><p data-i18n="priorities.4.sub">Améliorer durablement le quotidien</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-tight">
+  <div class="container">
+    <div class="join">
+      <div>
+        <span class="eyebrow" style="color:var(--gold)" data-i18n="about.cta.eyebrow">Aller plus loin</span>
+        <h2 data-i18n="about.cta.title">Découvrez nos domaines d'intervention.</h2>
+        <p data-i18n="about.cta.body">Six leviers complémentaires pour répondre aux défis environnementaux du territoire guinéen.</p>
+      </div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-end">
+        <a href="domaines.html" class="btn btn-gold" data-i18n="fields.allcta">Voir les 6 domaines en détail</a>
+        <a href="sengager.html" class="btn btn-outline-white" data-i18n="nav.engage">S'engager</a>
+      </div>
+    </div>
+  </div>
+</section>
+</article>
+
+
+<article class="print-page">
+  <header class="print-pageheader">
+    <p class="eyebrow">Page 03 · DOMAINES D'INTERVENTION</p>
+    <h1>Six leviers complémentaires pour un environnement sain</h1>
+  </header>
+  <section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html" data-i18n="nav.home">Accueil</a><span class="sep">›</span><span data-i18n="nav.fields">Domaines d'intervention</span></div>
+    <span class="eyebrow" data-i18n="fields.eyebrow">Nos 6 domaines d'intervention</span>
+    <h1 data-i18n="domaines.h1">Six leviers complémentaires pour un environnement sain.</h1>
+    <p data-i18n="domaines.lead">L'ONG VAPES intervient sur six domaines identifiés à partir des défis rencontrés par les communautés locales guinéennes.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    <article class="domain-full" id="reboisement">
+      <div>
+        <div class="ix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V14"/><path d="M5 14c-1.7-2-2-4.2-1.5-6.2C4.3 5 7 4 9.1 5c.9-2.4 3.8-3.5 6-2.1 1.4.9 2 2.5 1.7 4 2.1.4 3.7 2.4 3.5 4.7-.2 2.2-2 4-4.3 4.4"/><path d="M5 14h14"/></svg></div>
+        <div class="num">DOMAINE 01</div>
+      </div>
+      <div>
+        <h2 data-i18n="fields.1.title">Reboisement & lutte contre la déforestation</h2>
+        <p data-i18n="fields.1.body">Programmes de reboisement et restauration des écosystèmes dégradés avec les communautés locales.</p>
+      </div>
+    </article>
+
+    <article class="domain-full" id="climat">
+      <div>
+        <div class="ix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="9" r="3"/><path d="M7 4V2M2 9h2M12 9H10"/><path d="M14 18a4 4 0 1 1 4-4"/><path d="M10 22h8a3 3 0 0 0 0-6h-.5"/></svg></div>
+        <div class="num">DOMAINE 02</div>
+      </div>
+      <div>
+        <h2 data-i18n="fields.2.title">Changement climatique</h2>
+        <p data-i18n="fields.2.body">Sensibilisation et actions concrètes pour accompagner les communautés face aux dérèglements climatiques.</p>
+      </div>
+    </article>
+
+    <article class="domain-full" id="erosion">
+      <div>
+        <div class="ix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><path d="M2 14c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><path d="M2 20c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/></svg></div>
+        <div class="num">DOMAINE 03</div>
+      </div>
+      <div>
+        <h2 data-i18n="fields.3.title">Lutte contre l'érosion côtière</h2>
+        <p data-i18n="fields.3.body">Protection du littoral guinéen et appui aux populations riveraines exposées au recul du trait de côte.</p>
+      </div>
+    </article>
+
+    <article class="domain-full" id="dechets">
+      <div>
+        <div class="ix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 19v3"/><path d="M3 16l3-9 3 5"/><path d="M21 16l-3 3-5-1"/><path d="M14 4l3 5-4 3"/></svg></div>
+        <div class="num">DOMAINE 04</div>
+      </div>
+      <div>
+        <h2 data-i18n="fields.4.title">Gestion & valorisation des déchets</h2>
+        <p data-i18n="fields.4.body">Sensibilisation au tri, appui aux initiatives locales de gestion et valorisation des déchets.</p>
+      </div>
+    </article>
+
+    <article class="domain-full" id="education">
+      <div>
+        <div class="ix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/></svg></div>
+        <div class="num">DOMAINE 05</div>
+      </div>
+      <div>
+        <h2 data-i18n="fields.5.title">Éducation environnementale & formation</h2>
+        <p data-i18n="fields.5.body">Formations en gouvernance environnementale, sensibilisation et transmission des savoirs.</p>
+      </div>
+    </article>
+
+    <article class="domain-full" id="genre">
+      <div>
+        <div class="ix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M15 21v-1.5a3 3 0 0 1 3-3h1a3 3 0 0 1 3 3V21"/></svg></div>
+        <div class="num">DOMAINE 06</div>
+      </div>
+      <div>
+        <h2 data-i18n="fields.6.title">Promotion du genre, des femmes et des jeunes</h2>
+        <p data-i18n="fields.6.body">Les femmes et les jeunes au cœur de l'action environnementale et du développement durable.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container">
+    <div class="join">
+      <div>
+        <span class="eyebrow" style="color:var(--gold)" data-i18n="join.eyebrow">Comment nous soutenir</span>
+        <h2 data-i18n="join.title">Engagez-vous à nos côtés.</h2>
+        <p data-i18n="join.lead">Contribuez à la protection de l'environnement par le bénévolat, les dons, les partenariats et la participation à nos projets communautaires.</p>
+      </div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-end">
+        <a href="sengager.html#don" class="btn btn-gold" data-i18n="nav.donate">Faire un don</a>
+        <a href="projets.html" class="btn btn-outline-white" data-i18n="nav.projects">Nos projets</a>
+      </div>
+    </div>
+  </div>
+</section>
+</article>
+
+
+<article class="print-page">
+  <header class="print-pageheader">
+    <p class="eyebrow">Page 04 · NOS PROJETS</p>
+    <h1>Sur le terrain, avec les communautés</h1>
+  </header>
+  <section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html" data-i18n="nav.home">Accueil</a><span class="sep">›</span><span data-i18n="nav.projects">Nos projets</span></div>
+    <span class="eyebrow" data-i18n="projects.eyebrow">Projets & actions de terrain</span>
+    <h1 data-i18n="projets.h1">Sur le terrain, avec les communautés.</h1>
+    <p data-i18n="projets.lead">Une sélection d'actions concrètes menées par l'ONG VAPES dans les régions de Faranah et à Conakry, en partenariat avec les autorités locales, l'ISAV et les jeunes.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    <article class="project-detail">
+      <div class="photo" style="background-image:url('images/galerie/02-faranah-ministre-agriculture.png')"></div>
+      <div class="body">
+        <div class="meta"><span>Faranah</span><span>Programme spécial étudiant</span></div>
+        <h2 data-i18n="activities.1.title">Rencontre avec la Ministre de l'Agriculture</h2>
+        <p data-i18n="projets.1.body">Échange à Faranah avec Mme Mariama Ciré SYLLA, Ministre de l'Agriculture, dans le cadre du suivi de la campagne agricole. L'ONG VAPES est bénéficiaire du Programme spécial étudiant implanté à Kindia, Mamou, Faranah et N'Zérékoré, dans les domaines de l'apiculture, du maraîchage, de la production et de la transformation.</p>
+      </div>
+    </article>
+
+    <article class="project-detail flip">
+      <div class="photo" style="background-image:url('images/galerie/01-faranah-aout-plantation.png')"></div>
+      <div class="body">
+        <div class="meta"><span>Faranah</span><span>Bilan du mois d'août</span></div>
+        <h2 data-i18n="activities.2.title">Faranah — assainissement, dons de plants et formation</h2>
+        <p data-i18n="projets.2.body">Trois actions menées sur un même mois à Faranah : l'assainissement régulier de la Maison des Jeunes, le don d'environ 450 plants de fleurs à l'ISAV-Faranah et la formation de 36 jeunes sur l'insertion à la vie professionnelle.</p>
+      </div>
+    </article>
+
+    <article class="project-detail">
+      <div class="photo" style="background-image:url('images/galerie/03-conakry-lycee-ast-attestations.png')"></div>
+      <div class="body">
+        <div class="meta"><span>Conakry</span><span>21 novembre 2024</span></div>
+        <h2 data-i18n="activities.3.title">Remise d'attestations à 150 élèves au Lycée Ahmed Sékou Touré</h2>
+        <p data-i18n="projets.3.body">Remise d'attestations à 150 élèves du Lycée Ahmed Sékou Touré de Conakry, à l'issue des formations sur les thèmes du Développement Personnel, de la Mentalité Financière et des Métiers du Numérique.</p>
+      </div>
+    </article>
+
+    <article class="project-detail flip">
+      <div class="photo" style="background-image:url('images/galerie/04-faranah-assainissement-2023.png')"></div>
+      <div class="body">
+        <div class="meta"><span>Faranah</span><span>6 mai 2023</span></div>
+        <h2 data-i18n="activities.4.title">Journée d'assainissement avec les autorités et les jeunes</h2>
+        <p data-i18n="projets.4.body">« Une ville propre, une population en bonne santé et épanouie. » Journée d'assainissement exceptionnelle organisée avec les autorités locales et les jeunes de Faranah — tous ensemble pour un environnement sain.</p>
+      </div>
+    </article>
+
+  </div>
+</section>
+</article>
+
+
+<article class="print-page">
+  <header class="print-pageheader">
+    <p class="eyebrow">Page 05 · ACTUALITÉS</p>
+    <h1>L'actualité de l'ONG VAPES</h1>
+  </header>
+  <section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html" data-i18n="nav.home">Accueil</a><span class="sep">›</span><span data-i18n="nav.news">Actualités</span></div>
+    <span class="eyebrow" data-i18n="news.eyebrow">Les voix de VAPES</span>
+    <h1 data-i18n="news.h1">L'actualité de l'ONG VAPES.</h1>
+    <p data-i18n="news.lead2">Reportages, communiqués et photos depuis les zones d'intervention de l'ONG VAPES.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="max-width:880px">
+    <div class="timeline">
+      <article class="timeline-item">
+        <div class="when">Faranah · Programme spécial étudiant</div>
+        <h3 data-i18n="activities.1.title">Rencontre avec la Ministre de l'Agriculture</h3>
+        <p data-i18n="activities.1.body">Échange à Faranah avec Mme Mariama Ciré SYLLA. L'ONG VAPES est bénéficiaire du Programme spécial étudiant à Kindia, Mamou, Faranah et N'Zérékoré (apiculture, maraîchage, production et transformation).</p>
+      </article>
+
+      <article class="timeline-item">
+        <div class="when">Faranah · Bilan du mois d'août</div>
+        <h3 data-i18n="activities.2.title">Faranah — assainissement, dons de plants et formation</h3>
+        <p data-i18n="activities.2.body">Assainissement régulier de la Maison des Jeunes de Faranah, don d'environ 450 plants de fleurs à l'ISAV-Faranah, et formation de 36 jeunes sur l'insertion à la vie professionnelle.</p>
+      </article>
+
+      <article class="timeline-item">
+        <div class="when">Conakry · 21 novembre 2024</div>
+        <h3 data-i18n="activities.3.title">Remise d'attestations à 150 élèves au Lycée Ahmed Sékou Touré</h3>
+        <p data-i18n="activities.3.body">Attestations remises à 150 élèves à l'issue des formations sur le Développement Personnel, la Mentalité Financière et les Métiers du Numérique.</p>
+      </article>
+
+      <article class="timeline-item">
+        <div class="when">Faranah · 6 mai 2023</div>
+        <h3 data-i18n="activities.4.title">Journée d'assainissement avec les autorités et les jeunes</h3>
+        <p data-i18n="activities.4.body">« Une ville propre, une population en bonne santé et épanouie » — journée mobilisant les autorités locales et la jeunesse de Faranah pour un environnement sain.</p>
+      </article>
+    </div>
+
+    <div style="margin-top:48px;padding:32px;background:var(--bg-cream);border-radius:var(--radius-lg);border:1px solid #f1e9c8;text-align:center">
+      <h3 style="color:var(--green-900);margin-bottom:8px" data-i18n="news.more.title">Plus d'actualités à venir</h3>
+      <p style="color:var(--muted);margin:0 0 16px" data-i18n="news.more.body">Suivez la page Facebook officielle de l'ONG VAPES pour ne rien manquer.</p>
+      <a class="btn btn-green" href="https://facebook.com/profile.php?id=61572129334576" target="_blank" rel="noopener">Suivre sur Facebook</a>
+    </div>
+  </div>
+</section>
+</article>
+
+
+<article class="print-page">
+  <header class="print-pageheader">
+    <p class="eyebrow">Page 06 · S'ENGAGER</p>
+    <h1>Cinq manières de soutenir l'ONG VAPES</h1>
+  </header>
+  <section class="page-hero with-photo" style="--hero-photo:url('images/galerie/05-equipe-vapes-apres-action.png')">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html" data-i18n="nav.home">Accueil</a><span class="sep">›</span><span data-i18n="nav.engage">S'engager</span></div>
+    <span class="eyebrow" data-i18n="sengager.tagline">Rejoignez celles et ceux qui font bouger les choses</span>
+    <h1 data-i18n="sengager.h1">Engagez-vous à nos côtés.</h1>
+    <p data-i18n="sengager.lead">Contribuez à la protection de l'environnement par le bénévolat, les dons, les partenariats et la participation à nos projets communautaires.</p>
+  </div>
+</section>
+
+<!-- 5 MANIÈRES DE SOUTENIR (issues directement du dépliant) -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <span class="eyebrow" data-i18n="sengager.ways.eyebrow">5 manières de soutenir</span>
+      <h2 data-i18n="sengager.ways.title">Vous pouvez soutenir l'ONG VAPES en :</h2>
+    </div>
+
+    <div class="engage-cards">
+      <div class="engage-card" id="don">
+        <div class="ix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+        <h3 data-i18n="sengager.don.title">Apporter un appui financier ou matériel</h3>
+        <p data-i18n="sengager.don.body">Un don, même modeste, soutient directement nos actions de terrain au plus près des communautés.</p>
+        <a href="contact.html" class="btn btn-green" data-i18n="sengager.don.cta">Nous contacter pour un don</a>
+      </div>
+
+      <div class="engage-card" id="benevolat">
+        <div class="ix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3 data-i18n="sengager.benevolat.title">Participer à nos actions de terrain</h3>
+        <p data-i18n="sengager.benevolat.body">Rejoignez nos équipes sur le terrain — assainissement, plantation, sensibilisation, formation.</p>
+        <a href="contact.html" class="btn btn-green" data-i18n="sengager.benevolat.cta">Devenir bénévole</a>
+      </div>
+
+      <div class="engage-card" id="partenariat">
+        <div class="ix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <h3 data-i18n="sengager.partenariat.title">Devenir partenaire</h3>
+        <p data-i18n="sengager.partenariat.body">Entreprises, institutions, ambassades — co-construisons un programme à long terme.</p>
+        <a href="contact.html" class="btn btn-green" data-i18n="sengager.partenariat.cta">Proposer un partenariat</a>
+      </div>
+
+      <div class="engage-card" id="parrainage">
+        <div class="ix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 15 9l7 .5-5.5 5 2 7-6.5-4-6.5 4 2-7-5.5-5 7-.5z"/></svg></div>
+        <h3 data-i18n="sengager.parrainage.title">Parrainage / Marrainage</h3>
+        <p data-i18n="sengager.parrainage.body">Soutenir une action spécifique ou un programme jeunesse en devenant parrain ou marraine.</p>
+        <a href="contact.html" class="btn btn-green" data-i18n="sengager.parrainage.cta">Devenir parrain/marraine</a>
+      </div>
+
+      <div class="engage-card" id="relais" style="grid-column:1/-1">
+        <div class="ix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9c-1.7 0-3.3-.5-4.7-1.3L3 21l1.3-4.3C3.5 15.3 3 13.7 3 12z"/></svg></div>
+        <h3 data-i18n="sengager.relais.title">Relayer nos actions et nos messages de sensibilisation</h3>
+        <p data-i18n="sengager.relais.body">Partager nos publications, parler de l'ONG VAPES autour de vous, faire connaître nos actions — c'est déjà un soutien précieux.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="https://facebook.com/profile.php?id=61572129334576" target="_blank" rel="noopener" class="btn btn-outline">Page Facebook officielle</a>
+          <a href="https://www.facebook.com/share/g/1GfDJP7Vfm/" target="_blank" rel="noopener" class="btn btn-outline">Groupe Facebook</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA CONTACT -->
+<section class="section-tight">
+  <div class="container">
+    <div class="join">
+      <div>
+        <span class="eyebrow" style="color:var(--gold)" data-i18n="sengager.cta.eyebrow">Une question ?</span>
+        <h2 data-i18n="sengager.cta.title">Parlons-en directement.</h2>
+        <p data-i18n="sengager.cta.body">L'équipe de l'ONG VAPES est disponible pour échanger sur toute forme de soutien.</p>
+      </div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-end">
+        <a href="contact.html" class="btn btn-gold" data-i18n="nav.contact">Contact</a>
+        <a href="tel:+224622170210" class="btn btn-outline-white">+224 622 170 210</a>
+      </div>
+    </div>
+  </div>
+</section>
+</article>
+
+
+<article class="print-page">
+  <header class="print-pageheader">
+    <p class="eyebrow">Page 07 · PRESSE</p>
+    <h1>Ressources presse & médias</h1>
+  </header>
+  <section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html" data-i18n="nav.home">Accueil</a><span class="sep">›</span><span data-i18n="nav.press">Presse</span></div>
+    <span class="eyebrow" data-i18n="presse.eyebrow">Espace presse</span>
+    <h1 data-i18n="presse.h1">Ressources presse & médias.</h1>
+    <p data-i18n="presse.lead">Journalistes, rédactions, partenaires médias — toutes les ressources officielles de l'ONG VAPES sont rassemblées ici.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="content-grid-2">
+      <div>
+        <span class="eyebrow" data-i18n="presse.about.eyebrow">À propos de VAPES</span>
+        <h2 style="margin-top:.4em" data-i18n="presse.about.title">L'essentiel à savoir.</h2>
+        <p data-i18n="presse.about.p1"><strong>ONG VAPES</strong> — Visionnaire de l'Avenir pour un Environnement Sain. Organisation non gouvernementale guinéenne, apolitique et à but non lucratif.</p>
+        <p data-i18n="presse.about.p2"><strong>Mission :</strong> Renforcer la sensibilisation des communautés locales et agir concrètement pour la protection de l'environnement, la biodiversité et le développement durable.</p>
+        <p data-i18n="presse.about.p3"><strong>Zone d'intervention :</strong> Toute la République de Guinée.</p>
+        <p data-i18n="presse.about.p4"><strong>Devise :</strong> Perception – Réalité – Réussite.</p>
+        <p data-i18n="presse.about.p5"><strong>Coordinateur national :</strong> Aly Leno.</p>
+      </div>
+      <aside style="background:var(--green-900);color:#fff;border-radius:var(--radius-lg);padding:32px;align-self:start">
+        <h3 style="color:#fff;font-size:1.05rem;letter-spacing:.04em;text-transform:uppercase;margin:0 0 18px" data-i18n="presse.contact.title">Contact presse</h3>
+        <div class="contact-row" style="border-bottom:1px solid rgba(255,255,255,.1);padding:12px 0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="mailto:ongvapes@gmail.com" style="color:#fff">ongvapes@gmail.com</a>
+        </div>
+        <div class="contact-row" style="padding:12px 0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+224622170210" style="color:#fff">+224 622 170 210</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-soft">
+  <div class="container">
+    <div class="section-title">
+      <span class="eyebrow" data-i18n="presse.kit.eyebrow">Kit de presse</span>
+      <h2 data-i18n="presse.kit.title">Logo & ressources visuelles.</h2>
+      <p data-i18n="presse.kit.lead">Pour toute publication mentionnant l'ONG VAPES, merci d'utiliser ces ressources officielles.</p>
+    </div>
+
+    <div class="press-kit">
+      <a href="images/logo.jpeg" download="logo-ong-vapes.jpeg" target="_blank" rel="noopener">
+        <div class="ix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+        <div><strong data-i18n="presse.kit.logo">Logo ONG VAPES (JPEG)</strong><span data-i18n="presse.kit.logo.sub">Cliquez pour télécharger</span></div>
+      </a>
+      <a href="mailto:ongvapes@gmail.com?subject=Demande%20de%20charte%20graphique%20VAPES&body=Bonjour%2C%0A%0AJe%20souhaite%20recevoir%20la%20charte%20graphique%20de%20l'ONG%20VAPES.%0A%0AMerci.">
+        <div class="ix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></div>
+        <div><strong data-i18n="presse.kit.charte">Charte graphique</strong><span data-i18n="presse.kit.charte.sub">Demander par e-mail</span></div>
+      </a>
+      <a href="mailto:ongvapes@gmail.com?subject=Demande%20de%20dossier%20de%20pr%C3%A9sentation%20VAPES&body=Bonjour%2C%0A%0AJe%20souhaite%20recevoir%20le%20dossier%20de%20pr%C3%A9sentation%20de%20l'ONG%20VAPES.%0A%0AMerci.">
+        <div class="ix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <div><strong data-i18n="presse.kit.dossier">Dossier de présentation</strong><span data-i18n="presse.kit.dossier.sub">Demander par e-mail</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+</article>
+
+
+<article class="print-page">
+  <header class="print-pageheader">
+    <p class="eyebrow">Page 08 · CONTACT</p>
+    <h1>Coordonnées et formulaire</h1>
+  </header>
+  <section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html" data-i18n="nav.home">Accueil</a><span class="sep">›</span><span data-i18n="nav.contact">Contact</span></div>
+    <span class="eyebrow" data-i18n="contact.eyebrow">Restons en contact</span>
+    <h1 data-i18n="contact.h1">Contactez l'ONG VAPES.</h1>
+    <p data-i18n="contact.lead">Une question, un projet, une proposition de partenariat ? Notre équipe vous répond.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="contact-block">
+
+      <div>
+        <span class="eyebrow" data-i18n="contact.coord.eyebrow">Nos coordonnées</span>
+        <h2 style="margin-top:.4em" data-i18n="contact.coord.title">Toutes nos coordonnées.</h2>
+        <p data-i18n="contact.coord.body">L'ONG VAPES est joignable par téléphone, e-mail ou directement à son siège social à Sanoyah.</p>
+
+        <div class="contact-card" style="margin-top:24px">
+          <h3 data-i18n="contact.coord.title2">Siège social</h3>
+          <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><div><strong>Adresse</strong><span>Sanoyah, Km 36, Coyah<br>République de Guinée</span></div></div>
+          <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><div><strong>Téléphone</strong><span><a href="tel:+224622170210">+224 622 170 210</a><br><a href="tel:+224662636657">+224 662 636 657</a></span></div></div>
+          <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><div><strong>E-mail</strong><span><a href="mailto:ongvapes@gmail.com">ongvapes@gmail.com</a><br><a href="mailto:ongvapesforever3690@gmail.com">ongvapesforever3690@gmail.com</a></span></div></div>
+        </div>
+      </div>
+
+      <form class="contact-form" data-contact novalidate>
+        <h3 style="color:var(--green-900);margin:0 0 6px;font-size:1.3rem" data-i18n="contact.form.title">Écrivez-nous</h3>
+        <p style="color:var(--muted);margin:0 0 22px" data-i18n="contact.form.lead">Nous vous répondrons sous quelques jours ouvrés.</p>
+        <div class="field"><label for="cf-name" data-i18n="contact.form.name">Nom complet</label><input id="cf-name" name="name" required></div>
+        <div class="field"><label for="cf-email">E-mail</label><input id="cf-email" name="email" type="email" required></div>
+        <div class="field"><label for="cf-subject" data-i18n="contact.form.subject">Objet</label>
+          <select id="cf-subject" name="subject">
+            <option data-i18n="contact.form.subject.general">Demande générale</option>
+            <option data-i18n="contact.form.subject.don">Faire un don</option>
+            <option data-i18n="contact.form.subject.benevolat">Devenir bénévole</option>
+            <option data-i18n="contact.form.subject.partenariat">Partenariat</option>
+            <option data-i18n="contact.form.subject.press">Presse / Média</option>
+          </select>
+        </div>
+        <div class="field"><label for="cf-msg" data-i18n="contact.form.message">Message</label><textarea id="cf-msg" name="message" required></textarea></div>
+        <button type="submit" class="btn btn-green" data-i18n="contact.form.send">Envoyer le message</button>
+      </form>
+
+    </div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container">
+    <div style="background:var(--bg-cream);border:1px solid #f1e9c8;border-radius:var(--radius-lg);padding:32px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;justify-content:space-between">
+      <div>
+        <h3 style="color:var(--green-900);margin:0 0 6px" data-i18n="contact.fb.title">Suivez-nous sur Facebook</h3>
+        <p style="color:var(--muted);margin:0" data-i18n="contact.fb.body">Toutes les actualités, photos et appels à mobilisation en temps réel.</p>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="https://facebook.com/profile.php?id=61572129334576" target="_blank" rel="noopener" class="btn btn-green">Page officielle</a>
+        <a href="https://www.facebook.com/share/g/1GfDJP7Vfm/" target="_blank" rel="noopener" class="btn btn-outline">Groupe Facebook</a>
+      </div>
+    </div>
+  </div>
+</section>
+</article>
+
+<section class="print-end">
+  <img src="images/logo.jpeg" alt="">
+  <h2>ONG VAPES</h2>
+  <p>Sanoyah, Km 36, Coyah — République de Guinée<br>
+  ongvapes@gmail.com · +224 622 170 210<br>
+  facebook.com/profile.php?id=61572129334576</p>
+  <div class="credit-row">
+    <span>Site web conçu par</span>
+    <img src="images/novar-logo.png" alt="NOVAR">
+  </div>
+</section>
+
+<script>
+(function(){
+  function go(){
+    var p = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+    p.then(function(){ setTimeout(function(){ window.print(); }, 800); });
+  }
+  if (document.readyState === 'complete') go();
+  else window.addEventListener('load', go);
+})();
+</script>
+</body>
+</html>
