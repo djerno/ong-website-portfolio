@@ -1,6 +1,6 @@
-/* ONG VAPES — main.js
+/* EcoAction NGO — main.js
    - Mobile menu
-   - FR/EN language toggle (uses window.VAPES_I18N)
+   - FR/EN language toggle (uses window.EcoAction_I18N)
    - Sticky header shadow
    - Reveal-on-scroll
    - Animated counters
@@ -38,7 +38,7 @@
   // ---------- i18n ----------
   const STORAGE_KEY = 'vapes_lang';
   function applyLang(lang){
-    const dict = (window.VAPES_I18N || {})[lang];
+    const dict = (window.EcoAction_I18N || {})[lang];
     if (!dict) return;
     document.documentElement.setAttribute('lang', lang);
     document.querySelectorAll('[data-i18n]').forEach(el=>{
