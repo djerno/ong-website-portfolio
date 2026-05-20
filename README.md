@@ -1,13 +1,13 @@
-# ONG VAPES — Site web officiel
+# ONG EcoAction — Site web officiel
 
-Site institutionnel de l'ONG VAPES (Visionnaire de l'Avenir pour un Environnement Sain).
+Site institutionnel de l'ONG EcoAction (Agir pour la Nature et l'Environnement).
 
-République de Guinée · Siège : Sanoyah, Km 36, Coyah · ongvapes@gmail.com
+République de Guinée · Siège : Notre Quartier, Km 36, Notre Ville · contact@votre-ong.com
 
 ## Structure
 
 ```
-vapes-website/
+EcoAction-website/
 ├── index.html             Accueil
 ├── qui-sommes-nous.html
 ├── domaines.html
@@ -40,7 +40,7 @@ Typographie : Montserrat (titres + boutons) · Open Sans (texte courant).
 
 ## Mise en ligne
 
-Le site est statique : un simple hébergeur web suffit. Téléverser le contenu du dossier `vapes-website/` à la racine du domaine.
+Le site est statique : un simple hébergeur web suffit. Téléverser le contenu du dossier `EcoAction-website/` à la racine du domaine.
 
 Hébergeurs recommandés : Netlify, Cloudflare Pages, GitHub Pages, ou tout hébergement mutualisé classique (FTP).
 
@@ -48,7 +48,7 @@ Pour configurer un nom de domaine personnalisé, créer un enregistrement CNAME 
 
 ## Contacts
 
-- ongvapes@gmail.com · ongvapesforever3690@gmail.com
-- +224 622 170 210 · +224 662 636 657
-- Facebook : https://www.facebook.com/profile.php?id=61572129334576
-- Groupe Facebook : https://www.facebook.com/share/g/1GfDJP7Vfm/
+- contact@votre-ong.com · contact@votre-ong.com
+- +000 000 000 000 · +000 000 000 000
+- Facebook : https://facebook.com/votre-page
+- Groupe Facebook : https://facebook.com/votre-page

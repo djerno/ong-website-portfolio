@@ -36,7 +36,7 @@
   }
 
   // ---------- i18n ----------
-  const STORAGE_KEY = 'vapes_lang';
+  const STORAGE_KEY = 'EcoAction_lang';
   function applyLang(lang){
     const dict = (window.EcoAction_I18N || {})[lang];
     if (!dict) return;

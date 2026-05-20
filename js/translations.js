@@ -268,7 +268,7 @@ window.EcoAction_I18N = {
     "activities.1.tag": "Province A",
     "activities.1.date": "Special student programme",
     "activities.1.title": "Meeting with the Minister of Agriculture",
-    "activities.1.body": "Meeting in Province A with Mrs Mariama Ciré SYLLA. EcoAction is a beneficiary of the Special student programme in Province B, Province C, Province A and Province D (beekeeping, market gardening, production and processing).",
+    "activities.1.body": "Meeting in Province A with Mrs Mme la Ministre. EcoAction is a beneficiary of the Special student programme in Province B, Province C, Province A and Province D (beekeeping, market gardening, production and processing).",
     "activities.2.tag": "Province A",
     "activities.2.date": "August report",
     "activities.2.title": "Province A — sanitation, seedling donation and training",
